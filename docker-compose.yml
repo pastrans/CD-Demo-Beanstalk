@@ -1,0 +1,45 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  app: 
+
+      build:
+        context: .
+        target: ${STAGE}
+        dockerfile: Dockerfile
+
+      volumes: 
+        - .:/app/
+        - /app/node_modules
+
+      container_name: api
+      ports:
+        - ${PORT}:${PORT}
+      environment:
+        PORT: ${PORT}
+        MONGODB_CNN: ${MONGODB_CNN}
+
+  mongo:
+    image: mongo:8.0.0-rc15
+    restart: always
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${PASSWORD}
+    volumes:
+      - ./db_data/:/data/db
+
+  mongo-express:
+    image: mongo-express:1.0.2-20-alpine3.19
+    restart: always
+    container_name: mongo_ui
+    ports:
+      - ${MONGO_EXPRESS_PORT}:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${USERNAME}:${PASSWORD}@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+
