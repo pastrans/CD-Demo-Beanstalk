@@ -1,14 +1,18 @@
 version: 0.2
 
 phases:
-  pre_build:
+  install:
     commands:
-      - echo "Buildspec is running the install phase"
+      - echo "Installing dependencies..."
       - npm install
   build:
     commands:
-      - echo "Buildspec is running the build phase"
-      - npm run start
+      - echo "Running build process..."
+      # Aquí irían los comandos que necesitas para construir tu aplicación.
+  post_build:
+    commands:
+      - echo "Running deployment process..."
+      - npm run start # Ejecuta el comando start solo en el despliegue
 
 artifacts:
   files:
