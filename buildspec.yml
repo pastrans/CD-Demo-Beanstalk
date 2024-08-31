@@ -12,7 +12,7 @@ phases:
   post_build:
     commands:
       - echo "Running deployment process..."
-      - npm run start # Ejecuta el comando start solo en el despliegue
+      - npm run start # Ejecuta el comando start solo en el despliegue :
 
 artifacts:
   files:
